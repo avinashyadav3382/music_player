@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% include "user/user_navbar.html" %}
+
+{% block head %}
+    <title>Add New Album</title>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h1>Albums</h1>
+        </div>
+        <div class="card-body">
+            <div class="accordion" id="albumAccordion">
+                {% for album in albums %}
+                    <div class="card">
+                        <div class="card-header" id="album{{ album.id }}">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapse{{ album.id }}" aria-expanded="false"
+                                        aria-controls="collapse{{ album.id }}">
+                                    {{ album.name }}
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapse{{ album.id }}" class="collapse" aria-labelledby="album{{ album.id }}"
+                             data-parent="#albumAccordion">
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>SL No</th>
+                                        <th>Name</th>
+                                        <th>Lyrics</th>
+                                        <th>Duration</th>
+                                        <th>Album Name</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for song in songs %}
+                                        {% if song.album_id == album.id %}
+                                            <tr>
+                                                <td>{{ loop.index }}</td>
+                                                <td>{{ song.name }}</td>
+                                                <td>{{ song.lyrics }}</td>
+                                                <td>{{ song.duration }}</td>
+                                                <td>{{ song.album.name }}</td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <a href="{{ url_for('rate_song', song_id=song.id) }}"
+                                                           class="btn btn-secondary">Rate Song</a>
+                                                        <a href="{{ url_for('user_play_song', song_id=song.id) }}"
+                                                           class="btn btn-primary">Play</a>
+                                                        {% if song.song_file %}
+                                                            <a href="{{ url_for('download_song', song_id=song.id) }}"
+                                                               class="btn btn-secondary">Download</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

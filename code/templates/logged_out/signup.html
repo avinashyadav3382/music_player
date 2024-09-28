@@ -1,0 +1,81 @@
+<!-- Use this to extend all below code in layout.html file -->
+{% extends "layout.html" %}
+{% include "logged_out/navbar.html" %}
+
+<!-- Use this include css file and place it in block head in layout.html file
+css file in static/login.css -->
+{% block head %}
+    <link rel="stylesheet" href="static\login.css">
+{% endblock %}
+
+
+{% block body %}
+<div class="jumbotron text-center">
+    <section >
+        <div class="container-fluid h-custom">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+              <img src="static\draw2.jpeg" class="img-fluid" alt="login page image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-6 offset-xl-1">
+              <form method="POST">
+                <div class="row">
+                  <!---creating two column in a row of 6 col wide out of 12  xl-6 means 6/12 in extra large screen, lg-6 is 6/12 in large  -->
+                  <!--Name input -->
+                  <div class=" col-xl-6 col-lg-6 col-md-6 offset-xl-0.5">
+                    <div class="my-3 mb-3">
+                      <label class="form-label ms-0" for="name">Name</label>
+                      <input type="text" name="name" placeholder="Enter your name" class="form-control form-control-lg">
+                    </div>
+                  </div>
+      
+                  <!-- Username input -->
+                  <div class=" col-xl-6 col-lg-6 col-md-6 offset-xl-0.5">
+                    <div class="my-3 mb-3">
+                      <label class="form-label ms-0" for="username">Choose Username</label>
+                      <input type="text" name="username" placeholder="Choose your username"
+                        class="form-control form-control-lg">
+                    </div>
+                  </div>
+                </div>
+      
+      
+                <!-- Email input -->
+                <div class="form-outline mb-4 my-3">
+                  <label class="form-label ms-0" for="email">Email address</label>
+                  <input type="email" name="email" class="form-control form-control-lg"
+                    placeholder="Enter a valid email address" />
+                </div>
+      
+      
+                <!-- Password input -->
+                <div class="form-outline mb-1">
+                  <label class="form-label" for="password">Password</label>
+                  <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter password" />
+      
+                </div>
+      
+                <div class="d-flex">
+                  <!-- Checkbox -->
+                  <a href="#!" class="text-body mb-4">Forgot password?</a>
+                </div>
+      
+                <div class="text-center text-lg-start mt-4 pt-2 mb-4">
+                  <button type="submit" class="btn btn-primary btn-lg"
+                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Sign Up</button>
+                    <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="/login"
+                      class="link-danger">Login Here</a></p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+</div>
+
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% include "admin/admin_navbar.html" %}
+
+{% block body %}
+
+<!-- Your HTML structure -->
+<div class="jumbotron text-center">
+    <div class="container mt-4">
+        <h1>Search Result</h1>
+        <p class="lead text-muted">Search result for <strong>{{ search }}</strong></p>
+
+        {% for category, items in {'Albums': albums, 'Songs': songs, 'Users': users}.items() %}
+            {% if items|length > 0 %}
+                <div class="card">
+                    <div class="card-header">
+                        <h1>{{ category }}</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="container">
+                            <table class="table">
+                                <thead>
+                                    {% if category == 'Albums' %}
+                                        <tr>
+                                            <th>SL No</th>
+                                            <th>Name</th>
+                                            <th>Genre</th>
+                                            <th>Artist</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    {% elif category == 'Songs' %}
+                                        <tr>
+                                            <th>SL No</th>
+                                            <th>Name</th>
+                                            <th>Lyrics</th>
+                                            <th>Duration</th>
+                                            <th>Album Name</th>
+                                            <th>Average Rating</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    {% elif category == 'Users' %}
+                                        <tr>
+                                            <th>SL No</th>
+                                            <th>Name</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    {% endif %}
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                        <tr>
+                                            <td>{{ loop.index }}</td>
+                                            {% if category == 'Albums' %}
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.genre }}</td>
+                                                <td>{{ item.artist }}</td>
+                                            {% elif category == 'Songs' %}
+                                                <td>{{ loop.index }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.lyrics }}</td>
+                                                <td>{{ item.duration }}</td>
+                                                <td>{{ item.album.name }}</td>
+                                                <td>{{ item.average_rating }}</td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <a href="{{ url_for('rate_song', song_id=item.id) }}"
+                                                            class="btn btn-secondary">Rate Song</a>
+                                                        <a href="{{ url_for('admin_play_song', song_id=item.id) }}"
+                                                            class="btn btn-primary">Play</a>
+                                                        <a href="{{ url_for('admin_delete_song', song_id=item.id) }}"
+                                                            class="btn btn-primary">Delete</a>
+                                                    </div>
+                                                </td>
+                                            {% elif category == 'Users' %}
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.username }}</td>
+                                                <td>{{ item.email }}</td>
+                                                <td>{{ item.role }}</td>
+                                                <td>{{ item.user_status }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

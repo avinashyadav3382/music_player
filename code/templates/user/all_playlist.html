@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% include "user/user_navbar.html" %}
+
+{% block head %}
+    <title>All Playlist</title>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h1>Playlists</h1>
+        </div>
+        <div class="card-body">
+            <div class="accordion" id="playlistAccordion">
+                {% if playlists|length == 0 %}
+                <p>No playlists found.</p>
+                {% endif %}
+                {% for playlist in playlists %}
+                <div class="card">
+                    <div class="card-header" id="playlist{{ playlist.id }}">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse{{ playlist.id }}" aria-expanded="false"
+                                aria-controls="collapse{{ playlist.id }}">
+                                {{ playlist.name }}
+                            </button>
+                            <div class="float-right">
+                                <a href="{{ url_for('play_playlist', playlist_id=playlist.id) }}"
+                                    class="btn btn-primary ml-2">Play</a>
+                                <a href="{{ url_for('manage_playlist', playlist_id=playlist.id) }}"
+                                    class="btn btn-primary ml-2">Manage</a>
+                                <a href="{{ url_for('delete_playlist', playlist_id=playlist.id) }}"
+                                    class="btn btn-secondary ml-2">Delete</a>
+                            </div>
+                        </h2>
+                    </div>
+
+                    <div id="collapse{{ playlist.id }}" class="collapse" aria-labelledby="playlist{{ playlist.id }}"
+                        data-parent="#playlistAccordion">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>SL No</th>
+                                            <th>Name</th>
+                                            <th>Lyrics</th>
+                                            <th>Duration</th>
+                                            <th>Album Name</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for playlist_song in playlist.playlist_songs %}
+                                        <tr>
+                                            <td>{{ loop.index }}</td>
+                                            <td>{{ playlist_song.song.name }}</td>
+                                            <td>{{ playlist_song.song.lyrics }}</td>
+                                            <td>{{ playlist_song.song.duration }}</td>
+                                            <td>{{ playlist_song.song.album.name }}</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a href="{{ url_for('rate_song', song_id=playlist_song.song.id) }}"
+                                                        class="btn btn-secondary">Rate Song</a>
+                                                    <a href="{{ url_for('user_play_song', song_id=playlist_song.song.id) }}"
+                                                        class="btn btn-primary">Play</a>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <h2>Create a New Playlist</h2>
+        <form method="POST" action="{{ url_for('user_all_playlist') }}">
+            <div class="form-group">
+                <label for="playlistName">Playlist Name</label>
+                <input type="text" class="form-control" id="playlistName" name="playlist_name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Playlist</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

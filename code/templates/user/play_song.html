@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% include "user/user_navbar.html" %}
+
+{% block head %}
+<title>Playing Song</title>
+{% endblock %}
+
+
+{% block body %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const audio = new Audio();
+        const playPauseButton = document.getElementById('play-pause');
+        const progressSlider = document.getElementById('progress-slider');
+        const currentTimeElement = document.getElementById('current-time');
+        const durationElement = document.getElementById('song-duration');
+        const nextButton = document.getElementById('next');
+        const prevButton = document.getElementById('prev');
+
+        const songsData = {{ songs_data_json | default('{}') | tojson | safe }};
+        const songUrls = songsData.songs_info.map(song => song.file_path);
+        console.log("Song URLs:", songUrls);
+
+        let currentSongIndex = 0;
+
+        if (songUrls.length > 0) {
+            audio.src = songUrls[currentSongIndex];
+            audio.play();
+        } else {
+            console.error("No songs to play.");
+        }
+
+        let isPlaying = false;
+
+        function togglePlay() {
+            isPlaying ? pauseAudio() : playAudio();
+        }
+
+        function playAudio() {
+            audio.play();
+            isPlaying = true;
+            playPauseButton.innerText = '⏸ Pause';
+        }
+
+        function pauseAudio() {
+            audio.pause();
+            isPlaying = false;
+            playPauseButton.innerText = '▶️ Play';
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songUrls.length;
+            loadAndPlayCurrentSong();
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songUrls.length) % songUrls.length;
+            loadAndPlayCurrentSong();
+        }
+
+        function loadAndPlayCurrentSong() {
+            audio.src = songUrls[currentSongIndex];
+            audio.load();
+            playAudio();
+        }
+
+        function setProgress() {
+            const progress = progressSlider.value / 100;
+            audio.currentTime = audio.duration * progress;
+        }
+
+        audio.addEventListener('timeupdate', updateProgressBar);
+
+        function updateProgressBar() {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressSlider.value = progress;
+
+            currentTimeElement.innerText = formatTime(audio.currentTime);
+            durationElement.innerText = formatTime(audio.duration);
+        }
+
+        function formatTime(timeInSeconds) {
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = Math.floor(timeInSeconds % 60);
+            return `${padZero(minutes)}:${padZero(seconds)}`;
+        }
+
+        function padZero(number) {
+            return number < 10 ? '0' + number : number;
+        }
+
+        playPauseButton.addEventListener('click', togglePlay);
+        progressSlider.addEventListener('input', setProgress);
+        nextButton.addEventListener('click', nextSong);
+        prevButton.addEventListener('click', prevSong);
+        audio.addEventListener('timeupdate', updateProgress);
+    });
+</script>
+
+<div id="music-player" class="mt-5">
+    <div id="album-cover" class="text-center">
+        <img src="\static\music_photo.jpg" class="img-fluid" alt="Album Cover" width="300" height="200">
+    </div>
+
+    <div id="song-info" class="text-center mt-3">
+        <p>Album : {{ album_name }}</p>
+    </div>
+
+    <div id="timeline" class="text-center mt-3">
+        <div id="current-time" class="float-start">0:00</div>
+        <div id="song-duration" class="float-end">"test"</div>
+        <div id="progress-bar" class="mx-auto">
+            <input type="range" id="progress-slider" min="0" max="100" value="0" oninput="setProgress()" class="form-range">
+        </div>
+    </div>
+
+    <div id="controls" class="text-center mt-3">
+        <div id="prev" onclick="prevSong()" class="btn btn-outline-secondary">&#9668; Previous</div>
+        <div id="play-pause" onclick="togglePlay()" class="btn btn-primary">▶️ Play</div>
+        <div id="next" onclick="nextSong()" class="btn btn-outline-secondary">Next &#9658;</div>
+    </div>
+</div>
+
+{% endblock %}

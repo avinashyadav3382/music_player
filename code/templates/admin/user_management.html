@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% include "admin/admin_navbar.html" %}
+
+{% block body %}
+<div class="jumbotron text-center">
+    <div class="container mt-4">
+        <!-- User Management -->
+        <div class="card">
+            <div class="card-header">
+                <h1>User Management</h1>
+            </div>
+            <div class="card-body">
+                <!-- User List Table -->
+                <div class="container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>SL No</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>
+                                        {% if user.role == "admin" %}
+                                            <div role="group" class="btn btn-secondary">Admin User</div>
+                                        {% else %}
+                                            <div class="btn-group" role="group">
+                                                {% if user.role == "creator" %}
+                                                    <a href="{{ url_for('demote_user', user_id=user.id) }}"
+                                                        class="btn btn-danger">Demote to User</a>
+                                                {% else %}
+                                                    <a href="{{ url_for('promote_user', user_id=user.id) }}"
+                                                        class="btn btn-danger">Promote to Creator</a>
+                                                {% endif %}
+                                                {% if user.user_status == "active" %}
+                                                    <a href="{{ url_for('block_user', user_id=user.id) }}"
+                                                        class="btn btn-secondary">Block</a>
+                                                {% else %}
+                                                    <a href="{{ url_for('unblock_user', user_id=user.id) }}"
+                                                        class="btn btn-secondary">Unblock User</a>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

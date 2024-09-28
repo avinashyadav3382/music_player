@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% include "creator/creator_navbar.html" %}
+
+{% block head %}
+<title>Add Album</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Add New Album</h1>
+    <form method="POST" action="{{ url_for('creator.add_new_album') }}">
+        <div class="mb-3">
+            <label for="album_name" class="form-label">Album Name</label>
+            <input type="text" class="form-control" id="album_name" name="album_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="genre" class="form-label">Genre</label>
+            <input type="text" class="form-control" id="genre" name="genre" required>
+        </div>
+        <div class="mb-3">
+            <label for="artist" class="form-label">Artist</label>
+            <input type="text" class="form-control" id="artist" name="artist" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Album</button>
+    </form>
+</div>
+{% endblock %}

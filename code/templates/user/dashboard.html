@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% include "user/user_navbar.html" %}
+
+{% block head %}
+    <title>Dashboard</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="text-center">User Dashboard</h1>
+        <div class="row">
+            <div class="col-md-3">
+                <a href="/user/all_songs" style="text-decoration: none;">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Songs</h5>
+                            <p class="card-text">{{ total_songs }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/user/all_playlist" style="text-decoration: none;">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Playlist</h5>
+                            <p class="card-text">{{ total_playlist }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <a href="/user/all_albums" style="text-decoration: none;">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Albums</h5>
+                            <p class="card-text">{{ total_albums }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <a href="/user/register_creator" style="text-decoration: none;">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body pt-0">
+                            <h2 class="card-title">+</h2>
+                            <h4 class="card-text">Register as Creator</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="row mt-4" style="max-height: 200px; overflow-y: auto; max-width:fit-content; overflow-x: auto ;">
+            <div class="col-md-12">
+                <h3 class="text-center">Trending Songs</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>SL No</th>
+                            <th>Name</th>
+                            <th>Album Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for song in trending_songs %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td> {{song.name}} </td>
+                            <td> {{song.album.name}} </td>
+                            
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('rate_song', song_id=song.id) }}"
+                                        class="btn btn-secondary">Rate
+                                        Song</a>
+
+                                    <a href="{{ url_for('user_play_song', song_id=song.id) }}"
+                                        class="btn btn-primary">Play</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Add rows with album information here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% include "admin/admin_navbar.html" %}
+
+{% block head %}
+<title>Profile</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h1 class="text-center">User Profile</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Profile Information</h5>
+            <p><strong>Name:</strong> {{ current_user.name }}</p>
+            <p><strong>Email:</strong> {{ current_user.email }}</p>
+            <p><strong>Username:</strong> {{ current_user.username }}</p>
+            <p><strong>Role:</strong> {{ current_user.role }}</p>
+            <p><strong>Registration Date:</strong> {{ current_user.register_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/user_profile/edit" class="btn btn-secondary">Edit Profile</a>
+    </div>  
+</div>
+
+{% endblock %}

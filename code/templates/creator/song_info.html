@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% include "creator/creator_navbar.html" %}
+
+{% block head %}
+<title>Songs Info</title>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Rate Song</h1>
+    <div>
+        <hr>
+
+        <h2>Song Details</h2>
+        <p>Name: {{ song.name }}</p>
+        <p>Artist: {{ song.album.artist }}</p>
+        <p>Album: {{ song.album.name }}</p>
+        <p>Lyrics: {{ song.lyrics }}</p>
+        <p>Duration: {{ song.duration }} minutes</p>
+
+        <hr>
+
+        <h2>Average Rating</h2>
+        <p>{{ average_rating }}</p>
+    </div>
+</div>
+{% endblock %}

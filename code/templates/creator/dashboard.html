@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% include "creator/creator_navbar.html" %}
+
+{% block head %}
+<title>Creator Dashboard</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h1 class="text-center">Creator Dashboard</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="/creator/song" style="text-decoration: none;">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Song Uploads</h5>
+                        <p class="card-text">{{ song_count }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/creator/song" style="text-decoration: none;">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Rating</h5>
+                        <p class="card-text">{{ average_rating }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/creator/album" style="text-decoration: none;">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Albums</h5>
+                        <p class="card-text">{{ album_count }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% if trending_songs %}
+    <div class="row mt-4" style="max-height: 200px; overflow-y: auto; max-width:fit-content; overflow-x: auto ;">
+            <div class="col-md-12">
+                <h3 class="text-center">Trending Songs</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>SL No</th>
+                            <th>Name</th>
+                            <th>Album Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for song in trending_songs %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td> {{song.name}} </td>
+                            <td> {{song.album.name}} </td>
+                            
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('edit_song', song_id=song.id) }}"
+                                        class="btn btn-secondary">Edit
+                                        Song</a>
+
+                                    <a href="{{ url_for('creator_play_song', song_id=song.id) }}"
+                                        class="btn btn-primary">Play</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Add rows with album information here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

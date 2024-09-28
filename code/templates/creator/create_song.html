@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% include "creator/creator_navbar.html" %}
+
+{% block head %}
+<title>Create Song</title>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card mx-auto">
+        <div class="card-header">Create New Song</div>
+        <div class="card-body">
+            <form method="POST" action="/creator/song/create_new" enctype="multipart/form-data">
+                <div class="mb-3 my-3">
+                    <label for="song_name" class="form-label">Song Name</label>
+                    <input type="text" class="form-control" id="song_name" name="song_name" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="lyrics" class="form-label">Lyrics</label>
+                    <input type="text" class="form-control" id="lyrics" name="lyrics" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label">Duration</label>
+                    <input type="text" class="form-control" id="duration" name="duration" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="album_id" class="form-label">Album</label>
+                    <select class="form-select" id="album_id" name="album_id" required="">
+                        <option value="">Select an album</option>
+                        {% for album in albums %}
+                        <option value="{{album.id}}">{{album.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="song_file" class="form-label">Song File</label>
+                    <input type="file" class="form-control" id="song_file" name="song_file" required="">
+                </div>
+                <button type="submit" class="btn btn-primary">Create Song</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

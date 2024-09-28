@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% include "user/user_navbar.html" %}
+
+{% block head %}
+    <title>Manage Playlist</title>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h1>Manage Playlist - {{ playlist.name }}</h1>
+        </div>
+        <div class="card-body">
+            <!-- Add Song Form -->
+            <form method="POST" action="{{ url_for('manage_playlist', playlist_id=playlist.id) }}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="song_id">Select Song</label>
+                        <select class="form-control" id="song_id" name="song_id" required>
+                            {% for song in songs_available %}
+                                <option value="{{ song.id }}">{{ song.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <button type="submit" class="btn btn-primary">Add Song</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Current Playlist Songs -->
+            <h2>Current Playlist Songs</h2>
+            <ul class="list-group">
+                {% for playlist_song in playlist_songs %}
+                    <li class="list-group-item">
+                        {{ playlist_song.song.name }} - {{ playlist_song.song.album.name }}
+                        <div class="float-right">
+                            <a href="{{ url_for('rate_song', song_id=playlist_song.song.id) }}" class="btn btn-secondary btn-sm">Rate Song</a>
+                            <a href="{{ url_for('user_play_song', song_id=playlist_song.song.id) }}" class="btn btn-primary btn-sm">Play</a>
+                            <a href="{{ url_for('remove_from_playlist', playlist_id=playlist.id, song_id=playlist_song.song.id) }}" class="btn btn-secondary btn-sm">Remove Song</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

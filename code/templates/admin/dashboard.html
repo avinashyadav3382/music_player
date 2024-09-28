@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% include "admin/admin_navbar.html" %}
+
+{% block body %}
+<div class="jumbotron text-center">
+    <div class="container mt-4">
+        <div class="row">
+            <!-- User KPI -->
+            <div class="col-md-3">
+                <a href="/admin/all_users"  style="text-decoration: none;">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Users</h5>
+                            <p class="card-text">{{total_user}}</p> <!-- Replace with actual user count -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Creator KPI -->
+            <div class="col-md-3">
+                <a href="/admin/all_creators"  style="text-decoration: none;">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Creators</h5>
+                        <p class="card-text">{{total_creator}}</p> <!-- Replace with actual creator count -->
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <!-- Album KPI -->
+            <div class="col-md-3">
+                <a href="/admin/all_albums"  style="text-decoration: none;">
+                <div class="card bg-warning text-dark">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Albums</h5>
+                        <p class="card-text">{{total_album}}</p> <!-- Replace with actual album count -->
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <!-- Song KPI -->
+            <div class="col-md-3">
+                <a href="/admin/all_songs"  style="text-decoration: none;">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Songs</h5>
+                        <p class="card-text">{{total_songs}}</p> <!-- Replace with actual song count -->
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+{% if trending_songs %}
+    <div class="row mt-4" style="max-height: 200px; overflow-y: auto; max-width:fit-content; overflow-x: auto ;">
+            <div class="col-md-12">
+                <h3 class="text-center">Trending Songs</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>SL No</th>
+                            <th>Name</th>
+                            <th>Album Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for song in trending_songs %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td> {{song.name}} </td>
+                            <td> {{song.album.name}} </td>
+                            
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('song_info', song_id=song.id) }}"
+                                        class="btn btn-secondary">Info
+                                        Song</a>
+
+                                    <a href="{{ url_for('admin_play_song', song_id=song.id) }}"
+                                        class="btn btn-primary">Play</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Add rows with album information here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

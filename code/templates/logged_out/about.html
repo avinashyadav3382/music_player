@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% include "logged_out/navbar.html" %}
+
+{% block body %}
+
+  <header class="header">
+    <h1 class="header__title">About Us</h1>
+  </header>
+
+  <section class="content">
+    <div class="content__container">
+      <p class="content__text">Welcome to Music App, where music comes to life!</p>
+      <p class="content__text">Our mission is to provide a seamless and enjoyable music experience for users of all tastes and preferences.</p>
+      <p class="content__text">Whether you're a casual listener or a devoted music enthusiast, this app is designed to cater to your musical journey.</p>
+      <p class="content__text">Explore a vast collection of songs, create personalized playlists, and discover new artists.</p>
+    </div>
+  </section>
+
+  <section class="team">
+    <div class="team__container">
+      <h2 class="team__title">Meet the Developer</h2>
+      <div class="developer">
+        <img src="static/avinash_image.jpg" alt="Avinash" class="developer__image" width="200" length="250">
+        <div class="developer__info">
+          <h3 class="developer__name">Avinash</h3>
+          <p class="developer__id">ID: 22F3001961</p>
+          <p class="developer__course">Course: Data Science & Application</p>
+          <p class="developer__university">University: IIT Madras</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

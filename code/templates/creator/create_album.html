@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% include "creator/creator_navbar.html" %}
+
+{% block head %}
+<title>Create Album</title>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card mx-auto">
+        <div class="card-header">Create New Album</div>
+        <div class="card-body">
+            <form method="POST" action="/creator/album/create_new">
+                <div class="form mb-3 my-3">
+                    <label for="album_name" class="form-label">Album Name</label>
+                    <input type="text" class="form-control" id="album_name" name="album_name" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="genre" class="form-label">Genre</label>
+                    <input type="text" class="form-control" id="genre" name="genre" required="">
+                </div>
+                <div class="mb-3">
+                    <label for="artist" class="form-label">Artist</label>
+                    <input type="text" class="form-control" id="artist" name="artist" required="">
+                </div>
+                <button type="submit" class="btn btn-primary">Create Album</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
